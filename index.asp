@@ -64,7 +64,9 @@
 		
 		function InitPageGuid()
 		{
-			var ParamPageGuid = GetUrlVars()['pageguid'];
+			var objClipBoard = window.opener.document;
+			var SmartEditURL = $(objClipBoard).find('iframe[name=Preview]').contents().get(0).location;
+			var ParamPageGuid = GetUrlVars(SmartEditURL)['EditPageGUID'];
 			
 			if(ParamPageGuid != null)
 			{
@@ -129,10 +131,15 @@
 			});
 		}
 		
-		function GetUrlVars()
+		function GetUrlVars(SourceUrl)
 		{
+			if(SourceUrl == undefined)
+			{
+				SourceUrl = window.location.href;
+			}
+			SourceUrl = new String(SourceUrl);
 			var vars = [], hash;
-			var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+			var hashes = SourceUrl.slice(SourceUrl.indexOf('?') + 1).split('&');
 			for(var i = 0; i < hashes.length; i++)
 			{
 				hash = hashes[i].split('=');
