@@ -1,6 +1,5 @@
-<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN'
-   'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
 	<meta http-equiv="expires" content="-1" />
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
@@ -65,10 +64,20 @@
 		function InitPageGuid()
 		{
 			var objClipBoard = window.opener.document;
-			var SmartEditURL = $(objClipBoard).find('iframe[name=Preview]').contents().get(0).location;
-			var ParamPageGuid = GetUrlVars(SmartEditURL)['EditPageGUID'];
+			var SmartEditURL;
+			if($(objClipBoard).find('iframe[name=Preview]').length > 0)
+			{
+				SmartEditURL = $(objClipBoard).find('iframe[name=Preview]').contents().get(0).location;
+			}
 			
-			if(ParamPageGuid != null)
+			var EditPageGuid = GetUrlVars(SmartEditURL)['EditPageGUID'];
+			var ParamPageGuid = GetUrlVars()['pageguid'];
+			
+			if(EditPageGuid != null)
+			{
+				_PageGuid = EditPageGuid;
+			}
+			else if (ParamPageGuid != null)
 			{
 				_PageGuid = ParamPageGuid;
 			}
