@@ -63,9 +63,19 @@ RqlConnector.prototype.SendRqlWebService = function(InnerRQL, IsText, CallbackFu
 		}
 		else
 		{
-			data = $.parseXML( $.trim(RetRql) );
+			var XmlDom = $.parseXML($.trim(RetRql));
+			
+			//IE
+			if (window.ActiveXObject){
+				data = XmlDom.xml;
+			}
+			// code for Mozilla, Firefox, Opera, etc.
+			else
+			{
+				data = (new XMLSerializer()).serializeToString(XmlDom);
+			}
 		}
-
+			
 		CallbackFunc(data);
 	});
 }
@@ -73,9 +83,16 @@ RqlConnector.prototype.SendRqlWebService = function(InnerRQL, IsText, CallbackFu
 RqlConnector.prototype.SendRqlCOM = function(InnerRQL, IsText, CallbackFunc)
 {
 	var Rql = this.padRQLXML(InnerRQL, IsText);
-	$.post(this.DCOMProxyUrl, { rqlxml: Rql },
-	function(data){
-		data = $('<div/>').append(data);
+	$.post(this.DCOMProxyUrl, { rqlxml: Rql }, function(data){
+		if(IsText)
+		{
+			// do nothing
+		}
+		else
+		{
+			data = $('<div/>').append(data);
+		}
+
 		CallbackFunc(data);
 	});
 }
