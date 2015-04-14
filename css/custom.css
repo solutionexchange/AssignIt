@@ -1,0 +1,14 @@
+body {
+	padding: 10px;
+}
+textarea, input {
+	width: 100%;
+}
+
+textarea {
+	height: 100px;
+}
+
+.form-horizontal .controls {
+	padding-right: 15px;
+}
